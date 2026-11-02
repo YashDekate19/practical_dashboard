@@ -69,18 +69,20 @@ def serve_pr4_profile():
 @pr4_bp.route('/api/test-db', methods=['GET'])
 @pr4_bp.route('/api/pr4/test-db', methods=['GET'])
 def api_test_db():
-    """Check database connectivity (MySQL with automatic SQLite fallback)"""
+    """Check database connectivity (Supabase PostgreSQL with automatic SQLite fallback)"""
     health = check_db_health()
     if health.get("ok"):
         return jsonify({
             "success": True,
-            "message": "Database connection successful",
+            "message": health.get("message", "Database connection successful"),
             "type": health.get("type"),
-            "database": health.get("database")
+            "database": health.get("database"),
+            "supabase_error": health.get("supabase_error")
         }), 200
     return jsonify({
         "success": False,
-        "message": health.get("message", "Database connection failed")
+        "message": health.get("message", "Database connection failed"),
+        "supabase_error": health.get("supabase_error")
     }), 500
 
 

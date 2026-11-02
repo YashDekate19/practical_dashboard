@@ -11,13 +11,25 @@ from backend.config import Config
 # Database Drivers & Connection Managers (Supabase PostgreSQL + SQLite Fallback)
 # -----------------------------------------------------------------------------
 
+LAST_DB_ERROR = None
+
 def get_supabase_connection():
     """Attempt connecting to Supabase PostgreSQL using DATABASE_URL"""
+    global LAST_DB_ERROR
     db_url = Config.DATABASE_URL or os.environ.get("DATABASE_URL")
-    if not db_url or db_url.strip() == "" or "your_supabase" in db_url.lower():
+    if not db_url or db_url.strip() == "":
+        LAST_DB_ERROR = "DATABASE_URL environment variable is not set on server"
         return None
+    if "your_supabase" in db_url.lower():
+        LAST_DB_ERROR = "DATABASE_URL contains placeholder text 'your_supabase'"
+        return None
+
+    # Normalize scheme if needed
+    if db_url.startswith("postgres://"):
+        db_url = db_url.replace("postgres://", "postgresql://", 1)
+
     try:
-        conn = psycopg2.connect(db_url, connect_timeout=5)
+        conn = psycopg2.connect(db_url, connect_timeout=15)
         # Ensure users table exists in the connected database
         with conn.cursor() as cur:
             cur.execute("""
@@ -30,8 +42,11 @@ def get_supabase_connection():
                 );
             """)
         conn.commit()
+        LAST_DB_ERROR = None
         return conn
-    except Exception:
+    except Exception as e:
+        LAST_DB_ERROR = f"Connection failed: {str(e)}"
+        print(f"[Supabase Connection Error] {e}", flush=True)
         return None
 
 
@@ -95,7 +110,8 @@ def check_db_health():
             "ok": True,
             "type": "SQLite (Local Fallback)",
             "database": Path(Config.SQLITE_DB_PATH).name,
-            "message": f"Active via SQLite fallback ({user_count} users registered). Configure DATABASE_URL for Supabase."
+            "message": f"Active via SQLite fallback ({user_count} users registered). Configure DATABASE_URL for Supabase.",
+            "supabase_error": LAST_DB_ERROR or "DATABASE_URL not set"
         }
     except Exception as e:
         return {
