@@ -1,175 +1,174 @@
 # 🎓 Web Development Practicals Suite & Centralized Dashboard
 
-[![Node.js](https://img.shields.io/badge/Node.js-18+-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)](https://nodejs.org/)
-[![React](https://img.shields.io/badge/React-19.3-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
-[![Vite](https://img.shields.io/badge/Vite-8.3-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
-[![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-4.3-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
 [![Python](https://img.shields.io/badge/Python-3.8+-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
 [![Flask](https://img.shields.io/badge/Flask-3.0-000000?style=for-the-badge&logo=flask&logoColor=white)](https://flask.palletsprojects.com/)
+[![React](https://img.shields.io/badge/React-19.3-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
+[![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-4.3-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
 [![MySQL](https://img.shields.io/badge/MySQL-8.0-4479A1?style=for-the-badge&logo=mysql&logoColor=white)](https://www.mysql.com/)
+[![Render](https://img.shields.io/badge/Render-Deploy%20Ready-46E3B7?style=for-the-badge&logo=render&logoColor=white)](https://render.com/)
 
-A comprehensive, academic full-stack portfolio comprising **6 Web Development practicals** developed for the **5th Semester Technical Skill Development (TSD)** curriculum. The suite features pure HTML5/CSS3 frontend showcases, full-stack Python Flask + MySQL authentication, modern React 19 Single Page Applications (SPA), and a unified **Home Dashboard** providing centralized access, live process management, and dynamic health-checks.
+A comprehensive, academic full-stack portfolio comprising **6 Web Development practicals** developed for the **5th Semester Technical Skill Development (TSD)** curriculum. The suite features pure HTML5/CSS3 frontend showcases, full-stack Python Flask + MySQL/SQLite authentication, modern React 19 Single Page Applications (SPA), and a unified **Modular Python Flask Backend** providing centralized access, live process management, REST APIs for all 6 practicals, and seamless one-click deployment to **Render**.
 
 ---
 
 ## 🌟 Practicals Overview
 
-| Practical | Project Title | Architecture & Stack | Directory | Route / Access URL | Start Command |
+| Practical | Project Title | Architecture & Stack | Directory | Route / Access URL | Backend API Prefix |
 |---|---|---|---|---|---|
-| **Practical 01** | **Tasty Restaurant** | Static HTML5 / CSS3 / Flexbox | `Pr1/` | Served at `/practicals/pr1/` | Handled by Dashboard |
-| **Practical 02** | **ShopEasy E-Commerce** | Static HTML5 / CSS3 / CSS Grid | `Pr2/` | Served at `/practicals/pr2/` | Handled by Dashboard |
-| **Practical 03** | **Personal Portfolio** | Static HTML5 / CSS3 Showcase | `Pr3/` | Served at `/practicals/pr3/` | Handled by Dashboard |
-| **Practical 04** | **Auth & Profile System** | Python Flask + MySQL + bcrypt | `Pr4/` | `http://127.0.0.1:5000` | `cd Pr4 && python app.py` |
-| **Practical 05** | **The Daily Times News** | Static HTML5 / CSS Grid Editorial | `Pr5/` | Served at `/practicals/pr5/` | Handled by Dashboard |
-| **Practical 06** | **Student Profile Portal** | React 19 + Vite + Tailwind CSS | `Pr 6/new-practical/` | `http://localhost:5173` | `cd "Pr 6/new-practical" && npm run dev` |
-| **Dashboard** | **Home Dashboard** | Pure Node.js HTTP Microserver | `home-dashboard/` | `http://localhost:3000` | `npm start` |
+| **Practical 01** | **Tasty Restaurant** | Static HTML5 / CSS3 / Flexbox | `Pr1/` | Served at `/practicals/pr1/` | `/api/pr1/...` (menu, order, reservation) |
+| **Practical 02** | **ShopEasy E-Commerce** | Static HTML5 / CSS3 / CSS Grid | `Pr2/` | Served at `/practicals/pr2/` | `/api/pr2/...` (products, search, cart, checkout) |
+| **Practical 03** | **Personal Portfolio** | Static HTML5 / CSS3 Showcase | `Pr3/` | Served at `/practicals/pr3/` | `/api/pr3/...` (profile, skills, projects, contact) |
+| **Practical 04** | **Auth & Profile System** | Flask + MySQL / SQLite + bcrypt | `Pr4/` | Served at `/practicals/pr4/` | `/api/...` (register, login, users, test-db) |
+| **Practical 05** | **The Daily Times News** | Static HTML5 / CSS Grid Editorial | `Pr5/` | Served at `/practicals/pr5/` | `/api/pr5/...` (articles, breaking, weather) |
+| **Practical 06** | **Student Profile Portal** | React 19 + Vite + Tailwind CSS | `Pr 6/new-practical/` | Served at `/practicals/pr6/` | `/api/pr6/...` (students, stats, advisor) |
+| **Dashboard** | **Home Dashboard** | Unified Python Flask Microserver | `backend/` | `http://localhost:5000` | `/api/practicals`, `/api/status`, `/health` |
 
 ---
 
-## 🚀 Quick Start (Launch Everything)
+## 🚀 Quick Start (Local Run)
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/YashDekate19/dashboard.git
-cd dashboard
+git clone https://github.com/YashDekate19/practical_dashboard.git
+cd practical_dashboard
 ```
 
-### 2. Start the Central Home Dashboard
-The Home Dashboard runs on native Node.js (no external `node_modules` required for the dashboard core):
+### 2. Install Python Dependencies
 ```bash
-npm start
+pip install -r requirements.txt
 ```
-*Or directly:*
-```bash
-node home-dashboard/server.js
-```
-👉 Open **`http://localhost:3000`** in your browser.
 
-From the Home Dashboard UI, you can:
-- Instantly preview Practicals 1, 2, 3, and 5 via embedded static routing.
-- Check live server & database connection statuses for Practical 4 (Flask + MySQL).
-- Start or stop backend services (Flask and Vite dev servers) with one click.
-- Seamlessly view the built React production bundle for Practical 6 even when Vite dev server is offline.
+### 3. Start the Unified Flask Backend
+```bash
+python wsgi.py
+```
+*Or directly via Python:*
+```bash
+python backend/app.py
+```
+👉 Open **`http://localhost:5000`** in your browser.
+
+### 4. (Optional) Run React Frontend in Development Mode
+To run the modern React 19 frontend with Hot Module Replacement (HMR):
+```bash
+npm run frontend:dev
+```
+👉 Open **`http://localhost:5173`** (API requests are automatically proxied to Flask on port 5000).
+
+To build the React frontend for Flask to serve in production:
+```bash
+npm run frontend:build
+```
+
+From the Dashboard UI, you can:
+- Switch seamlessly between all practicals (Tasty Restaurant, ShopEasy, Developer Portfolio, Auth System, Daily Times, Student Portal).
+- Instantly preview Practicals via embedded routing or dedicated React views.
+- Check live server & database connection statuses for Practical 4.
+- Make REST API requests across all practicals (`/api/pr1/*`, `/api/pr2/*`, `/api/pr3/*`, `/api/register`, `/api/pr5/*`, `/api/pr6/*`).
+- View both the pure React 19 components and original static files at `/practicals/prX/`.
 
 ---
 
-## ⚙️ Setting Up Individual Services
+## ☁️ Deployment on Render
 
-### Practical 04: Authentication & Profile System (Flask + MySQL)
+This repository is pre-configured for instant zero-configuration deployment to **Render** using Gunicorn:
 
-1. **Install Python Dependencies**:
-   ```bash
-   cd Pr4
-   pip install -r requirements.txt
-   ```
+1. Connect your repository on [Render Dashboard](https://dashboard.render.com).
+2. Choose **New Web Service** and select `practical_dashboard`.
+3. Set:
+   - **Build Command**: `pip install -r requirements.txt`
+   - **Start Command**: `gunicorn wsgi:app --bind 0.0.0.0:$PORT`
+4. Deploy!
 
-2. **Setup MySQL Database**:
-   - Make sure your local MySQL server is running on port `3306`.
-   - Run the provided `schema.sql` script in MySQL Workbench or via terminal:
-     ```bash
-     mysql -u root -p < schema.sql
-     ```
-   - Default expected database: `authentication_db` with `users` table.
-
-3. **Configure Environment (Optional)**:
-   - Copy `.env.example` to `.env` if you wish to override default credentials:
-     ```env
-     DB_HOST=localhost
-     DB_PORT=3306
-     DB_USER=personal
-     DB_PASSWORD=MyNewPassword123!
-     DB_NAME=authentication_db
-     ```
-
-4. **Run Server**:
-   ```bash
-   python app.py
-   ```
-   *(Or click **"Start Service"** directly on Card 4 in the Home Dashboard!)*
-
----
-
-### Practical 06: Student Profile Portal (React 19 + Vite + Tailwind)
-
-1. **Install Node Dependencies**:
-   ```bash
-   cd "Pr 6/new-practical"
-   npm install
-   ```
-
-2. **Run Vite Development Server**:
-   ```bash
-   npm run dev
-   ```
-   *The development server will launch at `http://localhost:5173` with instant Hot Module Replacement (HMR).*
-
-3. **Build for Production**:
-   ```bash
-   npm run build
-   ```
-   *Creates an optimized production build in `dist/` which is previewable through the Home Dashboard at `/practicals/pr6-preview/index.html`.*
+*(For full step-by-step instructions with environment variable setup and SQLite/MySQL options, see [DEPLOYMENT_RENDER.md](DEPLOYMENT_RENDER.md).)*
 
 ---
 
 ## 📂 Repository Structure
 
 ```text
-dashboard/
-├── .gitignore                   # Universal git ignore configuration
+practical_dashboard/
+├── .env.example                 # Environment configuration template
+├── .gitignore                   # Universal git ignore rules
+├── DEPLOYMENT_RENDER.md         # Step-by-step Render deployment guide
 ├── LICENSE                      # MIT License
-├── package.json                 # Root convenience scripts (npm start, etc.)
+├── package.json                 # Convenience commands (npm start runs wsgi.py)
+├── Procfile                     # Web process configuration for Render/Heroku
 ├── README.md                    # Root project documentation
+├── render.yaml                  # Render Infrastructure-as-Code blueprint
+├── requirements.txt             # Production Python dependencies
+├── wsgi.py                      # WSGI entry point for Gunicorn
 │
-├── home-dashboard/              # Centralized management portal
-│   ├── server.js                # Native Node.js HTTP server & process manager
-│   ├── package.json             # Dashboard metadata & scripts
-│   ├── README.md                # Dashboard specific documentation
-│   └── public/                  # Dashboard frontend assets
-│       ├── index.html           # Modern glassmorphism UI
-│       ├── styles.css           # Premium dark mode CSS design system
-│       └── app.js               # Reactive state & live polling logic
+├── backend/                     # Unified Modular Python Flask Backend
+│   ├── app.py                   # Flask Application Factory & blueprint registry
+│   ├── config.py                # Environment-driven configuration
+│   ├── requirements.txt         # Backend Python package requirements
+│   │
+│   ├── dashboard/               # Home Dashboard Blueprint
+│   │   ├── logic.py             # Practical definitions & health checkers
+│   │   └── routes.py            # Dashboard UI and status APIs
+│   │
+│   ├── practical1/              # Practical 01: Tasty Restaurant
+│   │   ├── logic.py             # Menu catalog, ordering & reservation logic
+│   │   └── routes.py            # Static file serving & REST endpoints
+│   │
+│   ├── practical2/              # Practical 02: ShopEasy E-Commerce
+│   │   ├── logic.py             # Product catalog, search & checkout logic
+│   │   └── routes.py            # Static file serving & REST endpoints
+│   │
+│   ├── practical3/              # Practical 03: Personal Developer Portfolio
+│   │   ├── logic.py             # Developer profile, skills matrix & inquiries
+│   │   └── routes.py            # Static file serving & REST endpoints
+│   │
+│   ├── practical4/              # Practical 04: Auth & Profile System
+│   │   ├── logic.py             # Supabase PostgreSQL / MySQL driver with SQLite fallback & bcrypt
+│   │   └── routes.py            # Auth templates (/profile) and auth REST APIs
+│   │
+│   ├── practical5/              # Practical 05: The Daily Times News Portal
+│   │   ├── logic.py             # Newspaper articles, breaking news & weather
+│   │   └── routes.py            # Static file serving & REST endpoints
+│   │
+│   └── practical6/              # Practical 06: Student Profile Portal
+│       ├── logic.py             # Academic student directory & analytics
+│       └── routes.py            # React 19 SPA bundle delivery & student APIs
 │
-├── Pr1/                         # Practical 01: Tasty Restaurant
-│   ├── index.html               # Semantic HTML5 layout
-│   ├── style.css                # CSS3 Flexbox & menu styling
-│   └── *.jpeg, *.webp           # Culinary asset images
+├── frontend/                    # Modern Unified React 19 + Vite Frontend
+│   ├── package.json             # React 19, Lucide React, Vite dependencies
+│   ├── vite.config.js           # Proxy configuration to Flask backend (:5000)
+│   ├── dist/                    # Compiled production bundle served by Flask
+│   └── src/
+│       ├── App.jsx              # Main React SPA shell & navigation router
+│       ├── dashboard/           # React Dashboard components & practical cards
+│       ├── practical1/          # Tasty Restaurant React view
+│       ├── practical2/          # ShopEasy E-Commerce React view & cart state
+│       ├── practical3/          # Developer Portfolio React view & contact form
+│       ├── practical4/          # Auth & Profile React view & authentication
+│       ├── practical5/          # Daily Times News Portal React view & weather
+│       ├── practical6/          # Student Academic Portal React view & stats
+│       └── services/api.js      # Unified REST API client for Flask backend
 │
-├── Pr2/                         # Practical 02: ShopEasy E-Commerce
-│   ├── index.html               # Product catalog interface
-│   ├── style.css                # CSS Grid catalog layout
-│   └── *.webp, *.jpeg           # Product images
+├── home-dashboard/              # Dashboard Legacy Frontend Files
+│   └── public/                  # Original Glassmorphism Dashboard UI
+│       ├── index.html
+│       ├── styles.css
+│       └── app.js
 │
-├── Pr3/                         # Practical 03: Personal Developer Portfolio
-│   ├── index.html               # Yash Dekate portfolio showcase
-│   └── style.css                # Minimalist profile styling
-│
-├── Pr4/                         # Practical 04: Auth & Profile System
-│   ├── app.py                   # Flask REST API & auth backend
-│   ├── requirements.txt         # Python package dependencies
-│   ├── schema.sql               # Database creation & table schema
-│   ├── .env.example             # Database configuration template
-│   ├── templates/               # Jinja2 HTML templates (Auth & Profile)
-│   └── static/                  # Stylesheets and dynamic auth scripts
-│
-├── Pr5/                         # Practical 05: The Daily Times News Portal
-│   ├── index.html               # Broadsheet editorial layout
-│   └── style.css                # Multi-column CSS Grid styling
-│
-└── Pr 6/                        # Practical 06: Student Academic Profile Portal
-    ├── new-practical/           # Active React 19 + Vite + Tailwind CSS project
-    │   ├── src/                 # React components & Tailwind styles
-    │   ├── package.json         # React & Vite dependencies
-    │   └── vite.config.js       # Vite configuration
-    └── practical-6/             # TypeScript alternative variant
+├── Pr1/                         # Practical 01: Tasty Restaurant (Original Static files)
+├── Pr2/                         # Practical 02: ShopEasy E-Commerce (Original Static files)
+├── Pr3/                         # Practical 03: Yash Dekate Portfolio (Original Static files)
+├── Pr4/                         # Practical 04: Auth & Profile (Original Templates & scripts)
+├── Pr5/                         # Practical 05: The Daily Times (Original Static files)
+└── Pr 6/                        # Practical 06: Student Academic Portal (Original React SPA)
 ```
 
 ---
 
-## 🛡️ Security & Clean Code
+## 🛡️ Database Architecture (Practical 04)
 
-- **Zero Secret Leaks**: All database configuration is externalized with environment variables and sample `.env.example` templates.
-- **Git Ignore Safeguards**: `.gitignore` comprehensively filters all `node_modules/`, `dist/`, `__pycache__/`, `.env` secrets, and operating system caches.
-- **Pure Native Architecture**: The Home Dashboard server operates entirely on native Node.js APIs without requiring `npm install` just to view practicals.
+- **Cloud Database**: Supabase Managed PostgreSQL (`DATABASE_URL` pooler connection, `users` table).
+- **Secondary / Local**: MySQL Server (`authentication_db` database, `users` table).
+- **Automatic Cloud Fallback**: If external database is not reachable during isolated offline development, the system automatically initializes an internal SQLite database (`authentication.db`) with the exact same `users` schema.
+- **Security**: Cryptographic password hashing using `bcrypt` (work factor 12) with zero plain-text storage.
 
 ---
 

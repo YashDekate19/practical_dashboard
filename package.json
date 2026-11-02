@@ -1,11 +1,15 @@
 {
   "name": "tsd-5th-practicals-dashboard",
   "version": "1.0.0",
-  "description": "5th Semester Web Development Practicals Suite (Pr1 to Pr6) with Unified Home Dashboard",
+  "description": "5th Semester Web Development Practicals Suite (Pr1 to Pr6) with Unified Python Flask Dashboard",
   "private": true,
   "scripts": {
-    "start": "node home-dashboard/server.js",
-    "dashboard": "node home-dashboard/server.js",
+    "start": "python wsgi.py",
+    "flask": "python backend/app.py",
+    "frontend:dev": "npm --prefix frontend run dev",
+    "frontend:build": "npm --prefix frontend run build",
+    "frontend:install": "npm --prefix frontend install",
+    "node:legacy": "node home-dashboard/server.js",
     "pr6:dev": "npm --prefix \"Pr 6/new-practical\" run dev",
     "pr6:build": "npm --prefix \"Pr 6/new-practical\" run build",
     "pr6:install": "npm --prefix \"Pr 6/new-practical\" install"
@@ -14,8 +18,7 @@
     "dashboard",
     "web-development",
     "practicals",
-    "html5",
-    "css3",
+    "python",
     "flask",
     "mysql",
     "react",

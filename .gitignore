@@ -96,3 +96,12 @@ pnpm-debug.log*
 lerna-debug.log*
 *.tmp
 *.temp
+
+# ==========================================
+# Local Database Files
+# ==========================================
+*.db
+*.sqlite
+*.sqlite3
+authentication.db
+
