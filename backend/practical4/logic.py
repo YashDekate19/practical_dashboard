@@ -39,8 +39,14 @@ def get_sqlite_connection():
     """Fallback SQLite database connection for seamless cloud/offline execution"""
     db_path = Path(Config.SQLITE_DB_PATH)
     db_path.parent.mkdir(parents=True, exist_ok=True)
-    conn = sqlite3.connect(str(db_path))
+    conn = sqlite3.connect(str(db_path), timeout=30.0)
     conn.row_factory = sqlite3.Row
+    # Enable Write-Ahead Logging (WAL) and busy timeout to avoid database lock contention
+    try:
+        conn.execute("PRAGMA journal_mode=WAL;")
+        conn.execute("PRAGMA busy_timeout=30000;")
+    except Exception:
+        pass
 
     # Ensure table exists
     with conn:
@@ -79,13 +85,12 @@ def check_db_health():
                 pg_conn.close()
 
     # 2. SQLite Fallback (used when DATABASE_URL is not yet configured)
+    sqlite_conn = get_sqlite_connection()
     try:
-        sqlite_conn = get_sqlite_connection()
         cursor = sqlite_conn.cursor()
         cursor.execute("SELECT count(*) FROM users")
         user_count = cursor.fetchone()[0]
         cursor.close()
-        sqlite_conn.close()
         return {
             "ok": True,
             "type": "SQLite (Local Fallback)",
@@ -98,6 +103,8 @@ def check_db_health():
             "type": "None",
             "message": str(e)
         }
+    finally:
+        sqlite_conn.close()
 
 
 # -----------------------------------------------------------------------------
@@ -121,13 +128,15 @@ def find_user_by_email(email):
 
     # 2. SQLite Fallback
     sqlite_conn = get_sqlite_connection()
-    cursor = sqlite_conn.cursor()
-    cursor.execute("SELECT id, name, email, password FROM users WHERE email = ?", (email,))
-    row = cursor.fetchone()
-    user = dict(row) if row else None
-    cursor.close()
-    sqlite_conn.close()
-    return user
+    try:
+        cursor = sqlite_conn.cursor()
+        cursor.execute("SELECT id, name, email, password FROM users WHERE email = ?", (email,))
+        row = cursor.fetchone()
+        user = dict(row) if row else None
+        cursor.close()
+        return user
+    finally:
+        sqlite_conn.close()
 
 
 def insert_user(name, email, password_hash):
@@ -153,16 +162,18 @@ def insert_user(name, email, password_hash):
 
     # 2. SQLite Fallback
     sqlite_conn = get_sqlite_connection()
-    cursor = sqlite_conn.cursor()
-    cursor.execute(
-        "INSERT INTO users (name, email, password) VALUES (?, ?, ?)",
-        (name, email, password_hash)
-    )
-    sqlite_conn.commit()
-    user_id = cursor.lastrowid
-    cursor.close()
-    sqlite_conn.close()
-    return user_id
+    try:
+        cursor = sqlite_conn.cursor()
+        cursor.execute(
+            "INSERT INTO users (name, email, password) VALUES (?, ?, ?)",
+            (name, email, password_hash)
+        )
+        sqlite_conn.commit()
+        user_id = cursor.lastrowid
+        cursor.close()
+        return user_id
+    finally:
+        sqlite_conn.close()
 
 
 def list_users():
@@ -182,12 +193,14 @@ def list_users():
 
     # 2. SQLite Fallback
     sqlite_conn = get_sqlite_connection()
-    cursor = sqlite_conn.cursor()
-    cursor.execute("SELECT id, name, email, created_at FROM users ORDER BY id DESC")
-    users = [dict(row) for row in cursor.fetchall()]
-    cursor.close()
-    sqlite_conn.close()
-    return users
+    try:
+        cursor = sqlite_conn.cursor()
+        cursor.execute("SELECT id, name, email, created_at FROM users ORDER BY id DESC")
+        users = [dict(row) for row in cursor.fetchall()]
+        cursor.close()
+        return users
+    finally:
+        sqlite_conn.close()
 
 
 # -----------------------------------------------------------------------------
