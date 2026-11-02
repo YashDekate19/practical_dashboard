@@ -2,7 +2,7 @@
  * Central API Client for Flask Backend Communication
  */
 
-const BASE_URL = ''; // Relative path leverages Vite dev proxy & same-origin production
+const BASE_URL = import.meta.env.VITE_API_URL || ''; // Configurable for Vercel; defaults to relative path for local proxy & monolith
 
 async function request(endpoint, options = {}) {
   const url = `${BASE_URL}${endpoint}`;
